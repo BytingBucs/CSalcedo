@@ -8,7 +8,6 @@ var main = function (toDoObjects) {
            return toDo.description; 
      }); 
  
- 
      $(".tabs a span").toArray().forEach(function (element) { 
          var $element = $(element); 
  
