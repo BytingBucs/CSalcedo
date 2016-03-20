@@ -6,7 +6,7 @@ var toDoObjects =
 },    
 {   "description" : "Make up some new ToDos",
 	170 | Chapter 5: The Bridge
-        "tags"  : [ "writing", "work" ]    
+        "tags"  : -[ "writing", "work" ]    
 },    
 		/* etc */ 
 ];
