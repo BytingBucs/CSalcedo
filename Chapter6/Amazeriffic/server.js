@@ -1,11 +1,15 @@
-var http = require("http"),
-    server;
-
-server = http.createServer(function (req, res) {
-    res.writeHead(200, {"Content-Type": "text/plain"});
-    res.end("Hello World!\n");
+var express = require("express"),
+	http = require("http"),
+	app = express(),
+	toDos = {
+		// set up todo list here by copying
+		// the content from todos.OLD.json
+	};
+app.use(express.static(__dirname + "/client"));
+http.createServer(app).listen(3000);
+// This route takes the place of our
+// todos.json file in our example from
+// Chapter 5
+app.get("todos.json", function (req, res) {
+	res.json(toDos);
 });
-
-server.listen(3000);
-
-console.log("Server running on port 3000");
