@@ -1,11 +1,11 @@
-var main = function () { 
-     var toDos = ["Get groceries", 
-                  "Make up some new ToDos", 
-                  "Prep for Monday's class", 
-                  "Answer emails", 
-                  "Take Gracie to the park", 
-                  "Finish writing this book"]; 
- 
+var main = function (toDoObjects) {
+    "use strict";
+
+    var toDos = toDoObjects.map(function (toDo) {
+          // we'll just return the description
+          // of this toDoObject
+          return toDo.description;
+    });
  
      $(".tabs a span").toArray().forEach(function (element) { 
          var $element = $(element); 
@@ -58,24 +58,35 @@ var main = function () {
             });
                        
 
-             } else if ($element.parent().is(":nth-child(4)")) { 
-                 // input a new to-do 
-                 $input = $("<input>"), 
-                 $button = $("<button>").text("+"); 
- 
- 
-                 $button.on("click", function () { 
-                     if ($input.val() !== "") { 
-                         toDos.push($input.val()); 
-                         $input.val(""); 
-                     } 
-                 }); 
- 
- 
-                 $content = $("<div>").append($input).append($button); 
+            } else if ($element.parent().is(":nth-child(4)")) {
+				var $input = $("<input>").addClass("description"),
+
+					$inputLabel = $("<p>").text("Description: "),
+					$tagInput = $("<input>").addClass("tags"),
+					$tagLabel = $("<p>").text("Tags: "),
+					$button = $("<span>").text("+");
+				$button.on("click", function () {
+					var description = $input.val(),
+				// split on the comma
+				tags = $tagInput.val().split(",");
+				toDoObjects.push({"description":description, "tags":tags});
+				// update toDos
+				toDos = toDoObjects.map(function (toDo) {
+					return toDo.description;
+			});
+			$input.val("");
+			$tagInput.val("");
+		});
+		
+		$content = $("<div>").append($inputLabel)
+                                     .append($input)
+                                     .append($tagLabel)
+                                     .append($tagInput)
+                                     .append($button);
+			}
+                 /*$content = $("<div>").append($input).append($button); 
                 /* Alternatively append() allows multiple arguments so the above 
-                 can be done with $content = $("<div>").append($input, $button); */ 
-             } 
+                 can be done with $content = $("<div>").append($input, $button); */  
  
  
              $("main .content").append($content); 
@@ -122,6 +133,10 @@ var main = function () {
     console.log(tagObjects);
 };
 
-
  
-$(document).ready(main); 
+$(document).ready(function() {
+	$.getJSON("todos.json",function(toDoObjects) {
+			main(toDoObjects);
+	});
+});
+
